@@ -12,6 +12,15 @@ const options = {
       issuer: process.env.AUTH0_ISSUER,
     }),
   ],
+  callbacks: {
+    session: async ({ session, user }) => {
+      const userRole = await prisma.role.findUnique({
+        where: { id: user?.roleId || '' },
+      });
+
+      return { ...session, user: { ...user, role: userRole?.name } };
+    },
+  },
 };
 
 export default NextAuth(options);

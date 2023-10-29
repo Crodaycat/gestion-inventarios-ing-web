@@ -7,7 +7,9 @@ export const withPrivateRoute = <Props extends object>(
   PrivateComponent: ComponentType<Props>
 ) => {
   const ProtectedComponent: FC<Props> = (props) => {
-    const { status } = useSession();
+    const { data, status } = useSession();
+
+    console.log('data', data);
 
     if (status === 'loading') {
       return <LoadingOverlay />;
