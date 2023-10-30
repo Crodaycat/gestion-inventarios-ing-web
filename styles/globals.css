@@ -5,5 +5,27 @@
 html,
 body,
 #__next {
-  @apply min-h-svh;
+  @apply min-h-svh m-0 p-0;
+}
+
+#__next {
+  @apply flex;
+}
+
+* {
+  @apply box-border;
+}
+
+.base-layout {
+  @apply min-h-svh w-full flex justify-end;
+}
+
+.base-layout__aside {
+  @apply fixed top-0 bottom-0 left-0 w-80 lg:w-1/4 bg-slate-600;
+}
+
+.base-layout__main {
+  @apply w-full lg:w-3/4 px-5;
+}
+
 }
