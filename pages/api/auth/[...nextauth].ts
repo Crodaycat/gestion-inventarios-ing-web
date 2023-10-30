@@ -3,7 +3,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import NextAuth from 'next-auth';
 import Auth0Provider from 'next-auth/providers/auth0';
 
-const options = {
+export const AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     Auth0Provider({
@@ -23,4 +23,4 @@ const options = {
   },
 };
 
-export default NextAuth(options);
+export default NextAuth(AuthOptions);
