@@ -28,4 +28,18 @@ body,
   @apply w-full lg:w-3/4 px-5;
 }
 
+table {
+  @apply w-full text-left border border-separate rounded border-slate-200;
+}
+
+tr {
+  @apply transition-colors duration-300 hover:bg-slate-50;
+}
+
+th {
+  @apply h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100;
+}
+
+td {
+  @apply h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500;
 }
