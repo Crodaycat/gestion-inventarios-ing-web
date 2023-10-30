@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import { BackgroundColors, TextColors, TextSizes } from './model/theme';
 
 const config: Config = {
   content: [
@@ -21,6 +22,11 @@ const config: Config = {
       },
     },
   },
+  safelist: [
+    ...Object.values(TextColors),
+    ...Object.values(BackgroundColors),
+    ...Object.values(TextSizes),
+  ],
   plugins: [],
 };
 export default config;
