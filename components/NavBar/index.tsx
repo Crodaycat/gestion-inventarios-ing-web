@@ -17,9 +17,13 @@ export const NavBar: FC = () => {
         className='w-48 rounded-full'
       />
 
+      <span className='text-2xl font-bold text-white'>
+        {data?.user?.name || ''}
+      </span>
+
       <hr className='w-full my-4 text-slate-400' />
 
-      <div className='flex flex-col gap-5'>
+      <div className='flex flex-col gap-5 items-center'>
         <Link href='/inventarios'>
           <Button size='extraLarge'>Inventarios</Button>
         </Link>
