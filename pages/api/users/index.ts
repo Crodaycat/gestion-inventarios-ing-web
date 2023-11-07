@@ -9,7 +9,7 @@ type ResponseData = {
   message?: string;
 };
 
-const queryUsersHanlder = async (
+const queryUsersHandler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) => {
@@ -44,7 +44,7 @@ export default async function handler(
     await authorizationInterceptor(req, res, ['ADMIN']);
 
     if (req.method === 'GET') {
-      return queryUsersHanlder(req, res);
+      return queryUsersHandler(req, res);
     }
     return res.status(405).json({ message: 'Method not allowed' });
   } catch {
