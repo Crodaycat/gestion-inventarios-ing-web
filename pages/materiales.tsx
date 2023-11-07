@@ -1,14 +1,23 @@
 import { withPrivateRoute } from '@/HOC/PrivateRoute';
 import { Loading } from '@/components/Loading';
 import { useGetMaterials } from '@/hooks/useGetMaterials';
+import { useGetUsers } from '@/hooks/useGetUsers';
 import { BaseLayout } from '@/layout/BaseLayout';
 import { Paginator } from '@/components/Pagination';
 import { useState } from 'react';
 
 const Home = () => {
   const { materials, totalCount, materialsLoading } = useGetMaterials();
+  const { users } = useGetUsers();
+
+  // Crear un objeto para mapear los IDs de los usuarios a sus nombres
+  const userNameMap = users?.reduce<Record<string, string>>(
+    (map, user) => ({ ...map, [user.id]: user.name || '' }),
+    {}
+  );
+
   const [page, setPage] = useState<number>(1);
-  
+
   return (
     <BaseLayout>
       <section className='w-full flex flex-col items-center p-4 gap-5'>
@@ -38,7 +47,7 @@ const Home = () => {
                   <td>{material.id}</td>
                   <td>{material.name}</td>
                   <td>{material.quantity}</td>
-                  <td>{material.userId}</td>
+                  <td>{userNameMap?.[material.userId]}</td>
                 </tr>
               );
             })}
