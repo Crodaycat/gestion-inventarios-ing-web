@@ -3,10 +3,6 @@ const SERVER_URL = '/api';
 const API_ROUTES = {
   users: `${SERVER_URL}/users`,
   roles: `${SERVER_URL}/roles`,
-  lots: `${SERVER_URL}/lots`,
-  collections: `${SERVER_URL}/collections`,
-  shipments: `${SERVER_URL}/shipments`,
-  shipmentSummary: `${SERVER_URL}/shipments/summary`,
   materials: `${SERVER_URL}/materials`,
 };
 

@@ -1,13 +1,15 @@
 import { withPrivateRoute } from '@/HOC/PrivateRoute';
 import { Loading } from '@/components/Loading';
 import { Paginator } from '@/components/Pagination';
+import { ApplicationContext } from '@/context/ApplicationContext';
 import { useGetUsers } from '@/hooks/useGetUsers';
 import { BaseLayout } from '@/layout/BaseLayout';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 const Home = () => {
   const { users, totalCount, usersLoading } = useGetUsers();
+  const { roles } = useContext(ApplicationContext);
   const [page, setPage] = useState<number>(1);
 
   return (
@@ -19,8 +21,10 @@ const Home = () => {
           <thead>
             <tr>
               <th>Imagen</th>
+              <th>ID</th>
               <th>Nombre</th>
               <th>Correo</th>
+              <th>Creado en</th>
               <th>Rol</th>
               <th>Acciones</th>
             </tr>
@@ -48,9 +52,11 @@ const Home = () => {
                       className='rounded-full'
                     />
                   </td>
+                  <td>{user.id}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
-                  <td></td>
+                  <td>{user.emailVerified?.toDateString()}</td>
+                  <td>{roles.find((role) => role.id === user.roleId)?.name}</td>
                   <td></td>
                 </tr>
               );

@@ -1,8 +1,13 @@
-import { User, Material } from '@prisma/client';
+import { Material, Role, User } from '@prisma/client';
 
 export interface UsersQuery {
   users: User[];
   totalCount: number;
+}
+
+export interface RolesQuery {
+  roles?: Role[];
+  message?: string;
 }
 
 export interface MaterialsQuery {
