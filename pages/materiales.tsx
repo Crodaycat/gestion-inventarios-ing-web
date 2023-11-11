@@ -5,8 +5,7 @@ import { useGetUsers } from '@/hooks/useGetUsers';
 import { BaseLayout } from '@/layout/BaseLayout';
 import { Paginator } from '@/components/Pagination';
 import { useState } from 'react';
-import { Button } from '@/components/Button';
-import { NewMaterial } from '@/components/dialogs/materials/NewMaterial';
+import { AddMaterial } from '@/components/materials/AddMaterial';
 
 const Home = () => {
   const { materials, totalCount, materialsLoading } = useGetMaterials();
@@ -25,9 +24,12 @@ const Home = () => {
       <section className='w-full flex flex-col items-center p-4 gap-5'>
         <h1 className='text-4xl'>Gestión de Materiales</h1>
 
-        <Button color='primary' onClick={() => setOpenNewMaterial(true)}>
+        <button
+          className='bg-green-500 hover:bg-green-600 hover:scale-105 transition-all duration-200 ease-in rounded-md font-medium p-3 self-end'
+          onClick={() => setOpenNewMaterial(true)}
+        >
           Agregar material
-        </Button>
+        </button>
 
         <table cellSpacing='0'>
           <thead>
@@ -66,7 +68,7 @@ const Home = () => {
           totalCount={totalCount}
           updatePage={setPage}
         />
-        <NewMaterial open={openNewMaterial} setOpen={setOpenNewMaterial} />
+        <AddMaterial open={openNewMaterial} setOpen={setOpenNewMaterial} />
       </section>
     </BaseLayout>
   );
