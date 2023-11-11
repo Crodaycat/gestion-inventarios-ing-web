@@ -6,7 +6,7 @@ export interface LoadingProps {
 
 export const Loading: FC<LoadingProps> = ({ size = 1 }) => (
   <svg
-    className={`animate-spin -ml-1 mr-3 text-2xl`}
+    className={`animate-spin text-2xl`}
     style={{ height: `${size}rem`, width: `${size}rem` }}
     xmlns='http://www.w3.org/2000/svg'
     fill='none'

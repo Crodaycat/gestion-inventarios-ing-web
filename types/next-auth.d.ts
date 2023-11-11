@@ -8,6 +8,7 @@ declare module 'next-auth' {
    */
   interface Session {
     user: {
+      id: string;
       image?: string;
       role: Enum_RoleName?;
       name: string;
