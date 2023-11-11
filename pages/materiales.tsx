@@ -5,12 +5,13 @@ import { useGetUsers } from '@/hooks/useGetUsers';
 import { BaseLayout } from '@/layout/BaseLayout';
 import { Paginator } from '@/components/Pagination';
 import { useState } from 'react';
+import { Button } from '@/components/Button';
+import { NewMaterial } from '@/components/dialogs/materials/NewMaterial';
 
 const Home = () => {
   const { materials, totalCount, materialsLoading } = useGetMaterials();
   const { users } = useGetUsers();
 
-  // Crear un objeto para mapear los IDs de los usuarios a sus nombres
   const userNameMap = users?.reduce<Record<string, string>>(
     (map, user) => ({ ...map, [user.id]: user.name || '' }),
     {}
@@ -18,10 +19,16 @@ const Home = () => {
 
   const [page, setPage] = useState<number>(1);
 
+  const [openNewMaterial, setOpenNewMaterial] = useState(false);
   return (
     <BaseLayout>
       <section className='w-full flex flex-col items-center p-4 gap-5'>
         <h1 className='text-4xl'>Gestión de Materiales</h1>
+
+        <Button color='primary' onClick={() => setOpenNewMaterial(true)}>
+          Agregar material
+        </Button>
+
         <table cellSpacing='0'>
           <thead>
             <tr>
@@ -59,6 +66,7 @@ const Home = () => {
           totalCount={totalCount}
           updatePage={setPage}
         />
+        <NewMaterial open={openNewMaterial} setOpen={setOpenNewMaterial} />
       </section>
     </BaseLayout>
   );

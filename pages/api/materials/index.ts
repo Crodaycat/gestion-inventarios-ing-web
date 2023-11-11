@@ -7,7 +7,7 @@ type ResponseData = {
     materials?: Material[];
     totalCount?: number;
     message?: string;
-  };
+};
 
 const queryMaterialsHandler = async (
     req: NextApiRequest,
@@ -36,6 +36,27 @@ const queryMaterialsHandler = async (
     res.status(200).json({ materials, totalCount });
 };
 
+const createMaterialHandler = async (
+    req: NextApiRequest,
+    res: NextApiResponse<ResponseData>
+) => {
+    const { id, name, quantity, userId, createdAt, updatedAt  } = req.body;
+
+    const material = await prisma.material.create({
+        data: {
+            id,
+            name,
+            quantity,
+            userId: userId === undefined || null ? '0' : userId,
+            createdAt,
+            updatedAt,
+        },
+    });
+
+    const responseData: ResponseData = { materials: [material], message: 'Material created successfully' };
+    res.status(201).json(responseData);
+};
+
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<ResponseData>
@@ -46,6 +67,11 @@ export default async function handler(
         if (req.method === 'GET') {
             return queryMaterialsHandler(req, res);
         }
+
+        if (req.method === 'POST') {
+            return createMaterialHandler(req, res);
+        }
+
         return res.status(405).json({ message: 'Method not allowed' });
     } catch {
         return res.status(500).json({ message: 'Internal server error' });
