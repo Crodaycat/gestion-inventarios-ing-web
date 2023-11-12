@@ -35,6 +35,7 @@ const Home = () => {
           <thead>
             <tr>
               <th>ID</th>
+              <th>Fecha de creación</th>
               <th>Nombre</th>
               <th>Saldo</th>
               <th>Creador</th>
@@ -54,6 +55,7 @@ const Home = () => {
               return (
                 <tr key={material.id}>
                   <td>{material.id}</td>
+                  <td>{new Date(material.createdAt).toLocaleDateString()}</td>
                   <td>{material.name}</td>
                   <td>{material.quantity}</td>
                   <td>{userNameMap?.[material.userId]}</td>
