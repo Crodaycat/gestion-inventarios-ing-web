@@ -49,7 +49,7 @@ export const Paginator: FC<PaginationProps> = ({
         <li>
           <button
             aria-label='Goto Page 1'
-            className='inline-flex h-10 items-center justify-center gap-4 stroke-slate-700 px-4 text-sm font-medium text-slate-700 transition duration-300 hover:bg-emerald-50 hover:stroke-emerald-500 hover:text-emerald-500 focus:bg-emerald-50 focus:stroke-emerald-600 focus:text-emerald-600 focus-visible:outline-none'
+            className='inline-flex h-10 items-center justify-center gap-4 stroke-slate-700 px-4 text-sm font-medium text-slate-700 transition duration-300 hover:bg-slate-50 hover:stroke-slate-500 hover:text-slate-500 focus:bg-slate-50 focus:stroke-slate-600 focus:text-slate-600 focus-visible:outline-none'
             type='button'
             onClick={() => {
               setPage(currentPage - 1);
@@ -83,8 +83,8 @@ export const Paginator: FC<PaginationProps> = ({
               aria-label='Goto Page 1'
               className={`hidden h-10 items-center justify-center stroke-slate-700 px-4 text-sm font-medium transition duration-300  focus-visible:outline-none md:inline-flex ${
                 currentPage === page + 1
-                  ? 'whitespace-nowrap text-white bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-700'
-                  : 'stroke-slate-700 text-slate-700 hover:bg-emerald-50 hover:text-emerald-500 focus:bg-emerald-50 focus:text-emerald-600'
+                  ? 'whitespace-nowrap text-white bg-slate-500 hover:bg-slate-600 focus:bg-slate-700'
+                  : 'stroke-slate-700 text-slate-700 hover:bg-slate-50 hover:text-slate-500 focus:bg-slate-50 focus:text-slate-600'
               }`}
               type='button'
               onClick={() => {
@@ -99,7 +99,7 @@ export const Paginator: FC<PaginationProps> = ({
         <li>
           <button
             aria-label='Goto Page 4'
-            className='inline-flex h-10 items-center justify-center gap-4 stroke-slate-700 px-4 text-sm font-medium text-slate-700 transition duration-300 hover:bg-emerald-50 hover:stroke-emerald-500 hover:text-emerald-500 focus:bg-emerald-50 focus:stroke-emerald-600 focus:text-emerald-600 focus-visible:outline-none'
+            className='inline-flex h-10 items-center justify-center gap-4 stroke-slate-700 px-4 text-sm font-medium text-slate-700 transition duration-300 hover:bg-slate-50 hover:stroke-slate-500 hover:text-slate-500 focus:bg-slate-50 focus:stroke-slate-600 focus:text-slate-600 focus-visible:outline-none'
             type='button'
             onClick={() => {
               setPage(currentPage + 1);

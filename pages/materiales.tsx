@@ -1,11 +1,12 @@
 import { withPrivateRoute } from '@/HOC/PrivateRoute';
+import { Button } from '@/components/Button';
 import { Loading } from '@/components/Loading';
+import { Paginator } from '@/components/Pagination';
+import { AddMaterial } from '@/components/materials/AddMaterial';
 import { useGetMaterials } from '@/hooks/useGetMaterials';
 import { useGetUsers } from '@/hooks/useGetUsers';
 import { BaseLayout } from '@/layout/BaseLayout';
-import { Paginator } from '@/components/Pagination';
 import { useState } from 'react';
-import { AddMaterial } from '@/components/materials/AddMaterial';
 
 const Home = () => {
   const { materials, totalCount, materialsLoading } = useGetMaterials();
@@ -24,12 +25,11 @@ const Home = () => {
       <section className='w-full flex flex-col items-center p-4 gap-5'>
         <h1 className='text-4xl'>Gestión de Materiales</h1>
 
-        <button
-          className='bg-green-500 hover:bg-green-600 hover:scale-105 transition-all duration-200 ease-in rounded-md font-medium p-3 self-end'
-          onClick={() => setOpenNewMaterial(true)}
-        >
-          Agregar material
-        </button>
+        <div className='text-right w-full'>
+          <Button color='primary' onClick={() => setOpenNewMaterial(true)}>
+            Agregar material
+          </Button>
+        </div>
 
         <table cellSpacing='0'>
           <thead>

@@ -91,7 +91,7 @@ export const EditUser: FC<EditUserProps> = ({ user, isOpen, onClose }) => {
 
       <div className='flex gap-4 justify-center mt-4'>
         <Button color='primary' disabled={loading} onClick={onSubmit}>
-          {loading ? <Loading size={2} /> : <span>Agregar</span>}
+          {loading ? <Loading size={2} /> : <span>Actualizar</span>}
         </Button>
 
         <Button color='danger' onClick={onClose} disabled={loading}>

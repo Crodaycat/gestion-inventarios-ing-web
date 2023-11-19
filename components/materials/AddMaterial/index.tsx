@@ -1,11 +1,12 @@
+import { Button } from '@/components/Button';
 import { Dialog } from '@/components/Dialog';
+import { Loading } from '@/components/Loading';
 import { API_ROUTES } from '@/service/apiConfig';
 import axios, { AxiosError } from 'axios';
 import { useSession } from 'next-auth/react';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
-import { mutate } from 'swr';
 import { toast } from 'react-toastify';
-import { Loading } from '@/components/Loading';
+import { mutate } from 'swr';
 
 interface AddMaterialProps {
   open: boolean;
@@ -86,20 +87,19 @@ const AddMaterial = ({ open, setOpen }: AddMaterialProps) => {
             }
           />
         </label>
+
         <div className='flex gap-4 justify-center mt-4'>
-          <button
-            className='bg-green-400 rounded-md p-2 hover:scale-105 hover:bg-green-500 transition-all duration-200 ease-in'
-            type='submit'
-          >
+          <Button color='primary' disabled={loading} type='submit'>
             {loading ? <Loading size={2} /> : <span>Agregar</span>}
-          </button>
-          <button
-            className='bg-red-400 rounded-md p-2 hover:scale-105 hover:bg-red-500 transition-all duration-200 ease-in'
-            type='button'
+          </Button>
+
+          <Button
+            color='danger'
             onClick={() => setOpen(false)}
+            disabled={loading}
           >
             Cancelar
-          </button>
+          </Button>
         </div>
       </form>
     </Dialog>
