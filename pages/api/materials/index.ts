@@ -1,5 +1,8 @@
 import prisma from '@/service/prisma';
-import { authorizationInterceptor } from '@/utils/api.interceptors';
+import {
+  authenticationInterceptor,
+  authorizationInterceptor,
+} from '@/utils/api.interceptors';
 import { Material } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -13,6 +16,8 @@ const queryMaterialsHandler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) => {
+  await authenticationInterceptor(req, res);
+
   const { page, itemPerPage } = req.query;
 
   const {
@@ -41,6 +46,7 @@ const createMaterialHandler = async (
   res: NextApiResponse<ResponseData>
 ) => {
   try {
+    await authorizationInterceptor(req, res, ['ADMIN']);
     const { name, quantity, userId, createdAt, updatedAt } = req.body;
 
     const material = await prisma.material.create({
@@ -68,8 +74,6 @@ export default async function handler(
   res: NextApiResponse<ResponseData>
 ) {
   try {
-    await authorizationInterceptor(req, res, ['ADMIN']);
-
     if (req.method === 'GET') {
       return queryMaterialsHandler(req, res);
     }

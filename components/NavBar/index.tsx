@@ -1,4 +1,6 @@
 import { Button } from '@/components/Button';
+import { ProtectedComponent } from '@/components/ProtectedComponent';
+import { Enum_RoleName } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -32,9 +34,11 @@ export const NavBar: FC = () => {
           <Button size='extraLarge'>Materiales</Button>
         </Link>
 
-        <Link href='/usuarios'>
-          <Button size='extraLarge'>Usuarios</Button>
-        </Link>
+        <ProtectedComponent allowedRoles={[Enum_RoleName.ADMIN]}>
+          <Link href='/usuarios'>
+            <Button size='extraLarge'>Usuarios</Button>
+          </Link>
+        </ProtectedComponent>
       </div>
     </div>
   );
