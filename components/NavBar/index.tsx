@@ -1,7 +1,7 @@
 import { Button } from '@/components/Button';
 import { ProtectedComponent } from '@/components/ProtectedComponent';
 import { Enum_RoleName } from '@prisma/client';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -25,7 +25,7 @@ export const NavBar: FC = () => {
 
       <hr className='w-full my-4 text-slate-400' />
 
-      <div className='flex flex-col gap-5 items-center'>
+      <div className='flex flex-col gap-5 items-center w-full'>
         <Link href='/inventarios'>
           <Button size='extraLarge'>Inventarios</Button>
         </Link>
@@ -39,6 +39,12 @@ export const NavBar: FC = () => {
             <Button size='extraLarge'>Usuarios</Button>
           </Link>
         </ProtectedComponent>
+
+        <hr className='w-full my-4 text-slate-400' />
+
+        <Button size='extraLarge' onClick={signOut}>
+          Cerrar sesión
+        </Button>
       </div>
     </div>
   );

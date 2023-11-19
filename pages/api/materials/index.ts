@@ -1,8 +1,5 @@
 import prisma from '@/service/prisma';
-import {
-  authenticationInterceptor,
-  authorizationInterceptor,
-} from '@/utils/api.interceptors';
+import { authorizationInterceptor } from '@/utils/api.interceptors';
 import { Material } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -16,7 +13,7 @@ const queryMaterialsHandler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) => {
-  await authenticationInterceptor(req, res);
+  await authorizationInterceptor(req, res, ['ADMIN', 'USER']);
 
   const { page, itemPerPage } = req.query;
 

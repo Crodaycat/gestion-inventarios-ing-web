@@ -12,6 +12,7 @@ export interface ButtonProps {
   size?: Size;
   children?: ReactNode;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -19,10 +20,12 @@ export const Button: FC<ButtonProps> = ({
   color = 'normal',
   size = 'normal',
   onClick,
+  disabled = false,
 }) => (
   <button
-    className={`cursor-pointer text-lg py-1.5 px-3 rounded-sm ${BackgroundColors[color]} ${TextColors[color]} ${TextSizes[size]}`}
+    className={`cursor-pointer text-lg py-1.5 px-3 rounded-md ${BackgroundColors[color]} ${TextColors[color]} ${TextSizes[size]}`}
     onClick={onClick}
+    disabled={disabled}
   >
     {children}
   </button>

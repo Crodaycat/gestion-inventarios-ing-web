@@ -1,10 +1,10 @@
-import { Dialog as MUIDialog, DialogContent, DialogTitle } from '@mui/material';
+import { DialogContent, DialogTitle, Dialog as MUIDialog } from '@mui/material';
 
 interface DialogProps {
   title: string;
   open: boolean;
   onClose: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Dialog = ({ title, open, onClose, children }: DialogProps) => {

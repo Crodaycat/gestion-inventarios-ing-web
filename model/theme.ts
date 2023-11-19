@@ -12,12 +12,14 @@ export const TextColors: ColorsMap = Object.freeze({
   normal: 'text-white',
   primary: 'text-white',
   secondary: 'text-black',
+  danger: 'text-white',
 } as ColorsMap);
 
 export const BackgroundColors: ColorsMap = Object.freeze({
   normal: 'bg-transparent',
-  primary: 'bg-cyan-400',
+  primary: 'bg-slate-600',
   secondary: 'bg-transparent',
+  danger: 'bg-red-600',
 } as ColorsMap);
 
 export interface SizesMap {

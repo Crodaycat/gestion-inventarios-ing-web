@@ -1,11 +1,13 @@
 import { withPrivateRoute } from '@/HOC/PrivateRoute';
+import { Button } from '@/components/Button';
+import { EditUser } from '@/components/EditUser';
 import { Loading } from '@/components/Loading';
 import { Paginator } from '@/components/Pagination';
 import { ProtectedComponent } from '@/components/ProtectedComponent';
 import { ApplicationContext } from '@/context/ApplicationContext';
 import { useGetUsers } from '@/hooks/useGetUsers';
 import { BaseLayout } from '@/layout/BaseLayout';
-import { Enum_RoleName } from '@prisma/client';
+import { Enum_RoleName, User } from '@prisma/client';
 import Image from 'next/image';
 import { useContext, useState } from 'react';
 
@@ -13,6 +15,8 @@ const Home = () => {
   const { users, totalCount, usersLoading } = useGetUsers();
   const { roles } = useContext(ApplicationContext);
   const [page, setPage] = useState<number>(1);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [editUserOpen, setEditUserOpen] = useState<boolean>(false);
 
   return (
     <BaseLayout>
@@ -62,7 +66,17 @@ const Home = () => {
                     <td>
                       {roles.find((role) => role.id === user.roleId)?.name}
                     </td>
-                    <td></td>
+                    <td>
+                      <Button
+                        color='primary'
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setEditUserOpen(true);
+                        }}
+                      >
+                        Editar
+                      </Button>
+                    </td>
                   </tr>
                 );
               })}
@@ -75,6 +89,12 @@ const Home = () => {
             updatePage={setPage}
           />
         </section>
+
+        <EditUser
+          user={selectedUser}
+          isOpen={editUserOpen}
+          onClose={() => setEditUserOpen(false)}
+        />
       </ProtectedComponent>
     </BaseLayout>
   );
