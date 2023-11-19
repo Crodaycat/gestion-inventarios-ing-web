@@ -14,3 +14,8 @@ export interface MaterialsQuery {
   materials: Material[];
   totalCount: number;
 }
+
+export interface MovementsQuery {
+  movements: Movement[];
+  totalCount: number;
+}
