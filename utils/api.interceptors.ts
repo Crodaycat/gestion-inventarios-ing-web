@@ -20,7 +20,7 @@ export const authenticationInterceptor = async (
 export const authorizationInterceptor = async (
   req: NextApiRequest,
   res: NextApiResponse,
-  allowedRoles: Enum_RoleName
+  allowedRoles: Enum_RoleName[]
 ): Promise<boolean> => {
   const session = await getServerSession(req, res, authOptions);
 
