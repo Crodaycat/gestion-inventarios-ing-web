@@ -1,12 +1,9 @@
 import { withPrivateRoute } from '@/HOC/PrivateRoute';
 import { Loading } from '@/components/Loading';
+import { Paginator } from '@/components/Pagination';
 import { useGetMaterials } from '@/hooks/useGetMaterials';
 import { useGetMovements } from '@/hooks/useGetMovements';
-import { useGetUsers } from '@/hooks/useGetUsers';
 import { BaseLayout } from '@/layout/BaseLayout';
-import { Paginator } from '@/components/Pagination';
-import { Material } from '@prisma/client';
-import { useState } from 'react';
 import {
   FormControl,
   InputLabel,
@@ -14,22 +11,21 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
+import { useState } from 'react';
 
 import { AddMovement } from '@/components/inventory/AddMovement';
+import { Material } from '@/types';
 
 const Home = () => {
   const [selectedMaterial, setSelectedMaterial] = useState<Material>();
-  const { movements, totalCount, movementsLoading } = useGetMovements(selectedMaterial?.id || '');
-  const { users } = useGetUsers();
-
-  const userNameMap = users?.reduce<Record<string, string>>(
-    (map, user) => ({ ...map, [user.id]: user.name || '' }),
-    {}
+  const { movements, totalCount, movementsLoading } = useGetMovements(
+    selectedMaterial?.id || ''
   );
+
   const [page, setPage] = useState<number>(1);
   const { materials } = useGetMaterials();
   const [openNewMovement, setOpenNewMovement] = useState(false);
-  const handleMaterialChange = (e) => {
+  const handleMaterialChange = (e: SelectChangeEvent) => {
     const selectedMaterialId = e.target.value;
     // Find the corresponding material object
     const material = materials?.find((m) => m.id === selectedMaterialId);
@@ -47,25 +43,25 @@ const Home = () => {
       <section className='w-full flex flex-col items-center p-4 gap-5'>
         <h1 className='text-4xl'>Gestión de Inventarios</h1>
         <div className='flex flex-row justify-between w-full'>
-        <form className='flex flex-col mt-2 w-48'>
-        <FormControl fullWidth>
-        <InputLabel id='role'>Material seleccionado</InputLabel>
-        <Select
-            id='materials'
-            label='Seleccionar material...'
-            placeholder='Seleccionar material...'
-            value={selectedMaterial}
-            onChange={handleMaterialChange}
-          > 
-            <MenuItem value={''}>Seleccionar material...</MenuItem>
-            {materials?.map((material) => (
-              <MenuItem key={material.id} value={material.id}>
-                {material.name}
-              </MenuItem>
-            ))}
-          </Select>
-          </FormControl>
-        </form>
+          <form className='flex flex-col mt-2 w-48'>
+            <FormControl fullWidth>
+              <InputLabel id='role'>Material seleccionado</InputLabel>
+              <Select
+                id='materials'
+                label='Seleccionar material...'
+                placeholder='Seleccionar material...'
+                value={selectedMaterial?.id || ''}
+                onChange={handleMaterialChange}
+              >
+                <MenuItem value={''}>Seleccionar material...</MenuItem>
+                {materials?.map((material) => (
+                  <MenuItem key={material.id} value={material.id}>
+                    {material.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </form>
           <button
             className='bg-green-500 hover:bg-green-600 hover:scale-105 transition-all duration-200 ease-in rounded-md font-medium p-3 self-end'
             onClick={() => setOpenNewMovement(true)}
@@ -93,14 +89,22 @@ const Home = () => {
                 </td>
               </tr>
             )}
-            {movements?.map((material) => {
+            {movements?.map((movement) => {
               return (
-                <tr key={material.id}>
-                  <td>{material.id}</td>
-                  <td>{new Date(material.createdAt).toLocaleDateString()}</td>
-                  <td>{material.name}</td>
-                  <td>{material.quantity}</td>
-                  <td>{userNameMap?.[material.userId]}</td>
+                <tr key={movement.id}>
+                  <td>{movement.id}</td>
+                  <td>{new Date(movement.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    {movement.movementType === 'ENTRADA'
+                      ? ''
+                      : movement.quantity}
+                  </td>
+                  <td>
+                    {movement.movementType === 'SALIDA'
+                      ? ''
+                      : movement.quantity}
+                  </td>
+                  <td>{movement.createdBy?.name}</td>
                 </tr>
               );
             })}
@@ -112,7 +116,11 @@ const Home = () => {
           totalCount={totalCount}
           updatePage={setPage}
         />
-        <AddMovement open={openNewMovement} setOpen={setOpenNewMovement} materialName={selectedMaterial?.name || ''} />
+        <AddMovement
+          open={openNewMovement}
+          setOpen={setOpenNewMovement}
+          materialName={selectedMaterial?.name || ''}
+        />
       </section>
     </BaseLayout>
   );

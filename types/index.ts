@@ -1,4 +1,9 @@
-import { Material as PrismaMaterial, Role, User } from '@prisma/client';
+import {
+  InventoryMovement,
+  Material as PrismaMaterial,
+  Role,
+  User,
+} from '@prisma/client';
 
 export interface Material extends PrismaMaterial {
   createdBy: {
@@ -19,6 +24,12 @@ export interface RolesQuery {
 export interface MaterialsQuery {
   materials: Material[];
   totalCount: number;
+}
+
+export interface Movement extends InventoryMovement {
+  createdBy: {
+    name: string | null;
+  };
 }
 
 export interface MovementsQuery {
