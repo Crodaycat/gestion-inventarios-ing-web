@@ -6,21 +6,21 @@ import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
 import { mutate } from 'swr';
 import { toast } from 'react-toastify';
 import { Loading } from '@/components/Loading';
+import { Material } from '@/types';
 
 interface AddMovementProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  materialName: string;
+  material: Material | undefined;
 }
 
-const AddMovement = ({ open, setOpen, materialName }: AddMovementProps) => {
+const AddMovement = ({ open, setOpen, material }: AddMovementProps) => {
   const currentDate = new Date().toISOString();
   const { data } = useSession();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     movementType: '',
     quantity: 0,
-    userId: data?.user.id,
     createdAt: currentDate,
     updatedAt: currentDate,
   });
@@ -35,9 +35,12 @@ const AddMovement = ({ open, setOpen, materialName }: AddMovementProps) => {
         url: API_ROUTES.movements,
         data: {
           ...formData,
+          userId: data?.user.id,
+          materialId: material?.id
         },
       });
       await mutate(API_ROUTES.movements);
+      await mutate(`${API_ROUTES.movements}/${material?.id}`);
       toast.success('Movimiento agregado correctamente');
       setOpen(false);
     } catch (error) {
@@ -50,9 +53,9 @@ const AddMovement = ({ open, setOpen, materialName }: AddMovementProps) => {
           'Unique constraint failed on the fields: (`name`)'
         )
       ) {
-        toast.error('Error: ya existe un material con ese nombre');
+        toast.error('Error: ya existe un movimiento con ese nombre');
       } else {
-        toast.error('Error al agregar el material');
+        toast.error('Error al agregar el movimiento');
       }
     }
     setLoading(false);
@@ -60,7 +63,7 @@ const AddMovement = ({ open, setOpen, materialName }: AddMovementProps) => {
 
   return (
     <Dialog
-      title={`Nuevo movimiento a ${materialName}`}
+      title={`Nuevo movimiento a ${material?.name}`}
       open={open}
       onClose={() => setOpen(false)}
     >
@@ -71,16 +74,16 @@ const AddMovement = ({ open, setOpen, materialName }: AddMovementProps) => {
           <label className='flex items-center gap-1'>
             <input
               type='checkbox'
-              checked={formData.movementType === 'Entrada'}
-              onChange={() => setFormData({ ...formData, movementType: 'Entrada' })}
+              checked={formData.movementType === 'ENTRADA'}
+              onChange={() => setFormData({ ...formData, movementType: 'ENTRADA' })}
             />
             Entrada
           </label>
           <label className='flex items-center gap-1'>
             <input
               type='checkbox'
-              checked={formData.movementType === 'Salida'}
-              onChange={() => setFormData({ ...formData, movementType: 'Salida' })}
+              checked={formData.movementType === 'SALIDA'}
+              onChange={() => setFormData({ ...formData, movementType: 'SALIDA' })}
             />
             Salida
           </label>

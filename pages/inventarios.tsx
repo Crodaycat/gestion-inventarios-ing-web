@@ -35,6 +35,7 @@ const Home = () => {
 
     // Perform any other actions with the selected material, such as changing effect values
     if (material) {
+      setSelectedMaterial(material);
       // Update the effect value or perform any other action with the selected material
       // For example: setSelectedMaterial({ ...material, effect: newValue });
     }
@@ -67,62 +68,64 @@ const Home = () => {
           <Button
             color='primary'
             size='extraLarge'
-            onClick={() => setOpenNewMovement(true)}
+            onClick={() => { setOpenNewMovement(true) }}
           >
             Agregar movimiento
           </Button>
         </div>
-        <table cellSpacing='0'>
-          <thead>
-            <tr>
-              <th>Identificador</th>
-              <th>Fecha</th>
-              <th>Entrada</th>
-              <th>Salida</th>
-              <th>Responsable</th>
-            </tr>
-          </thead>
-          <tbody>
-            {movementsLoading && (
+        {selectedMaterial?.id && <>
+          <table cellSpacing='0'>
+            <thead>
               <tr>
-                <td colSpan={5}>
-                  <div className='flex justify-center items-center'>
-                    <Loading /> <span>Cargando...</span>
-                  </div>
-                </td>
+                <th>Identificador</th>
+                <th>Fecha</th>
+                <th>Entrada</th>
+                <th>Salida</th>
+                <th>Responsable</th>
               </tr>
-            )}
-            {movements?.map((movement) => {
-              return (
-                <tr key={movement.id}>
-                  <td>{movement.id}</td>
-                  <td>{new Date(movement.createdAt).toLocaleDateString()}</td>
-                  <td>
-                    {movement.movementType === 'ENTRADA'
-                      ? ''
-                      : movement.quantity}
+            </thead>
+            <tbody>
+              {movementsLoading && (
+                <tr>
+                  <td colSpan={5}>
+                    <div className='flex justify-center items-center'>
+                      <Loading /> <span>Cargando...</span>
+                    </div>
                   </td>
-                  <td>
-                    {movement.movementType === 'SALIDA'
-                      ? ''
-                      : movement.quantity}
-                  </td>
-                  <td>{movement.createdBy?.name}</td>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        <Paginator
-          currentPage={page}
-          itemsPerPage={20}
-          totalCount={totalCount}
-          updatePage={setPage}
-        />
+              )}
+              {movements?.map((movement) => {
+                return (
+                  <tr key={movement.id}>
+                    <td>{movement.id}</td>
+                    <td>{new Date(movement.createdAt).toLocaleDateString()}</td>
+                    <td>
+                      {movement.movementType === 'ENTRADA'
+                        ? movement.quantity
+                        : ''}
+                    </td>
+                    <td>
+                      {movement.movementType === 'SALIDA'
+                        ? movement.quantity
+                        : ''}
+                    </td>
+                    <td>{movement.createdBy?.name}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <Paginator
+            currentPage={page}
+            itemsPerPage={20}
+            totalCount={totalCount}
+            updatePage={setPage}
+          /></>}
+
         <AddMovement
           open={openNewMovement}
           setOpen={setOpenNewMovement}
-          materialName={selectedMaterial?.name || ''}
+          material={selectedMaterial}
         />
       </section>
     </BaseLayout>
