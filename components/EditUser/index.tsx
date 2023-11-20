@@ -14,15 +14,20 @@ import { User } from '@prisma/client';
 import axios from 'axios';
 import { FC, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { mutate } from 'swr';
 
 export interface EditUserProps {
   user: User | null;
   isOpen: boolean;
   onClose: () => void;
+  onUpdated: () => Promise<void>;
 }
 
-export const EditUser: FC<EditUserProps> = ({ user, isOpen, onClose }) => {
+export const EditUser: FC<EditUserProps> = ({
+  user,
+  isOpen,
+  onClose,
+  onUpdated,
+}) => {
   const { roles } = useContext(ApplicationContext);
   const [role, setRole] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -49,7 +54,7 @@ export const EditUser: FC<EditUserProps> = ({ user, isOpen, onClose }) => {
         },
       });
 
-      await mutate(API_ROUTES.users);
+      await onUpdated();
       toast.success('Usuario actualizado correctamente.');
       onClose();
     } catch (error) {

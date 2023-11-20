@@ -7,9 +7,11 @@ import { ProtectedComponent } from '@/components/ProtectedComponent';
 import { ApplicationContext } from '@/context/ApplicationContext';
 import { useGetUsers } from '@/hooks/useGetUsers';
 import { BaseLayout } from '@/layout/BaseLayout';
+import { API_ROUTES } from '@/service/apiConfig';
 import { Enum_RoleName, User } from '@prisma/client';
 import Image from 'next/image';
 import { useContext, useState } from 'react';
+import { mutate } from 'swr';
 
 const itemsPerPage = 20;
 
@@ -19,6 +21,15 @@ const Home = () => {
   const { users, totalCount, usersLoading } = useGetUsers(page, itemsPerPage);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [editUserOpen, setEditUserOpen] = useState<boolean>(false);
+
+  const onCreated = async () => {
+    const queryParams = new URLSearchParams({
+      page: page?.toString(),
+      itemPerPage: itemsPerPage?.toString(),
+    });
+
+    await mutate(`${API_ROUTES.users}?${queryParams}`);
+  };
 
   return (
     <BaseLayout>
@@ -94,6 +105,7 @@ const Home = () => {
           user={selectedUser}
           isOpen={editUserOpen}
           onClose={() => setEditUserOpen(false)}
+          onUpdated={onCreated}
         />
       </ProtectedComponent>
     </BaseLayout>
