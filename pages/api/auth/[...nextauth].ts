@@ -1,9 +1,9 @@
 import prisma from '@/service/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import NextAuth from 'next-auth';
+import NextAuth, { AuthOptions } from 'next-auth';
 import Auth0Provider from 'next-auth/providers/auth0';
 
-export const AuthOptions = {
+export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     Auth0Provider({
@@ -13,7 +13,7 @@ export const AuthOptions = {
     }),
   ],
   callbacks: {
-    session: async ({ session, user }: any) => {
+    session: async ({ session, user }) => {
       const userRole = await prisma.role.findUnique({
         where: { id: user?.roleId || '' },
       });
@@ -23,4 +23,4 @@ export const AuthOptions = {
   },
 };
 
-export default NextAuth(AuthOptions);
+export default NextAuth(authOptions);
