@@ -13,7 +13,7 @@ export const AuthOptions = {
     }),
   ],
   callbacks: {
-    session: async ({ session, user }:) => {
+    session: async ({ session, user }: any) => {
       const userRole = await prisma.role.findUnique({
         where: { id: user?.roleId || '' },
       });
