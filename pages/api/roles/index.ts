@@ -1,5 +1,5 @@
 import prisma from '@/service/prisma';
-import { authenticationInterceptor } from '@/utils/api.interceptors';
+import { authorizationInterceptor } from '@/utils/api.interceptors';
 import { Role } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -24,7 +24,9 @@ export default async function handler(
   res: NextApiResponse<ResponseData>
 ) {
   try {
-    await authenticationInterceptor(req, res);
+    if (!(await authorizationInterceptor(req, res, ['ADMIN']))) {
+      return;
+    }
 
     if (req.method === 'GET') {
       return queryRolesHandler(req, res);

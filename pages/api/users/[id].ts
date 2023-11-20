@@ -55,7 +55,9 @@ export default async function handler(
   res: NextApiResponse<ResponseData>
 ) {
   try {
-    await authorizationInterceptor(req, res, ['ADMIN']);
+    if (!(await authorizationInterceptor(req, res, ['ADMIN']))) {
+      return;
+    }
 
     if (req.method === 'GET') {
       return getUserApi(req, res);

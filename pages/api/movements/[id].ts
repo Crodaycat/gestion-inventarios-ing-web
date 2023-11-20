@@ -13,15 +13,13 @@ const queryMovementsHandler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) => {
-  await authorizationInterceptor(req, res, ['ADMIN', 'USER']);
-
   const { page, itemPerPage, id } = req.query;
 
   const {
     _count: { id: totalCount },
   } = await prisma.inventoryMovement.aggregate({
     _count: { id: true },
-    where: {materialId: id?.toString()}
+    where: { materialId: id?.toString() },
   });
 
   if (totalCount === 0) {
@@ -39,7 +37,7 @@ const queryMovementsHandler = async (
     orderBy: {
       createdAt: 'desc',
     },
-    where: {materialId: id?.toString()},
+    where: { materialId: id?.toString() },
     skip: (Number(page || 1) - 1) * Number(itemPerPage || 20),
     take: Number(itemPerPage || 20),
   });
@@ -52,6 +50,10 @@ export default async function handler(
   res: NextApiResponse<ResponseData>
 ) {
   try {
+    if (!(await authorizationInterceptor(req, res, ['ADMIN', 'USER']))) {
+      return;
+    }
+
     if (req.method === 'GET') {
       return queryMovementsHandler(req, res);
     }

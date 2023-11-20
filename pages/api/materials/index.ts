@@ -13,7 +13,9 @@ const queryMaterialsHandler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) => {
-  await authorizationInterceptor(req, res, ['ADMIN', 'USER']);
+  if (!(await authorizationInterceptor(req, res, ['ADMIN', 'USER']))) {
+    return;
+  }
 
   const { page, itemPerPage } = req.query;
 
@@ -50,7 +52,10 @@ const createMaterialHandler = async (
   res: NextApiResponse<ResponseData>
 ) => {
   try {
-    await authorizationInterceptor(req, res, ['ADMIN']);
+    if (!(await authorizationInterceptor(req, res, ['ADMIN']))) {
+      return;
+    }
+
     const { name, quantity, userId, createdAt, updatedAt } = req.body;
 
     const material = await prisma.material.create({

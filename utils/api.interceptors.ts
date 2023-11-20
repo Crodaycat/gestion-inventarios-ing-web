@@ -6,28 +6,33 @@ import { getServerSession } from 'next-auth';
 export const authenticationInterceptor = async (
   req: NextApiRequest,
   res: NextApiResponse
-) => {
+): Promise<boolean> => {
   const session = await getServerSession(req, res, AuthOptions);
 
   if (!session) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    res.status(401).json({ message: 'Unauthorized' });
+    return false;
   }
+
+  return true;
 };
 
 export const authorizationInterceptor = async (
   req: NextApiRequest,
   res: NextApiResponse,
   allowedRoles: Enum_RoleName[]
-) => {
+): Promise<boolean> => {
   const session = await getServerSession(req, res, AuthOptions);
 
   if (!session) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    res.status(401).json({ message: 'Unauthorized' });
+    return false;
   }
 
   if (!allowedRoles.includes(session.user?.role)) {
-    return res.status(403).json({ message: 'Forbidden' });
+    res.status(403).json({ message: 'Forbidden' });
+    return false;
   }
 
-  return session.user.role.name;
+  return true;
 };
