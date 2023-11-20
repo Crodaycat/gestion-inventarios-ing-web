@@ -4,10 +4,12 @@ import { Enum_RoleName } from '@prisma/client';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 export const NavBar: FC = () => {
   const { data } = useSession();
+  const router = useRouter();
 
   return (
     <div className='w-full h-full px-6 py-8 flex flex-col items-center'>
@@ -26,16 +28,25 @@ export const NavBar: FC = () => {
       <hr className='w-full my-4 text-slate-400' />
 
       <div className='flex flex-col gap-5 items-center w-full'>
-        <Link href='/inventarios'>
+        <Link
+          href='/inventarios'
+          className={router.asPath === '/inventarios' ? 'underline' : ''}
+        >
           <Button size='extraLarge'>Inventarios</Button>
         </Link>
 
-        <Link href='/materiales'>
+        <Link
+          href='/materiales'
+          className={router.asPath === '/materiales' ? 'underline' : ''}
+        >
           <Button size='extraLarge'>Materiales</Button>
         </Link>
 
         <ProtectedComponent allowedRoles={[Enum_RoleName.ADMIN]}>
-          <Link href='/usuarios'>
+          <Link
+            href='/usuarios'
+            className={router.asPath === '/usuarios' ? 'underline' : ''}
+          >
             <Button size='extraLarge'>Usuarios</Button>
           </Link>
         </ProtectedComponent>

@@ -25,7 +25,7 @@ export const Button: FC<ButtonProps> = ({
   type = 'button',
 }) => (
   <button
-    className={`cursor-pointer text-lg py-1.5 px-3 rounded-md ${BackgroundColors[color]} ${TextColors[color]} ${TextSizes[size]}`}
+    className={`cursor-pointer decoration-inherit text-lg py-1.5 px-3 rounded-md ${BackgroundColors[color]} ${TextColors[color]} ${TextSizes[size]}`}
     onClick={onClick}
     disabled={disabled}
     type={type}
