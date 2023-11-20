@@ -1,4 +1,10 @@
-import { Material, Role, User } from '@prisma/client';
+import { Material as PrismaMaterial, Role, User } from '@prisma/client';
+
+export interface Material extends PrismaMaterial {
+  createdBy: {
+    name: string | null;
+  };
+}
 
 export interface UsersQuery {
   users: User[];

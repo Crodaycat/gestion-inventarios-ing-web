@@ -45,6 +45,7 @@ model User {
   image         String?
   role          Role?               @relation(fields: [roleId], references: [id])
   roleId        String?
+  createdAt     DateTime            @default(now())
   accounts      Account[]
   sessions      Session[]
   materials     Material[]

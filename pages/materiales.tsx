@@ -4,18 +4,11 @@ import { Loading } from '@/components/Loading';
 import { Paginator } from '@/components/Pagination';
 import { AddMaterial } from '@/components/materials/AddMaterial';
 import { useGetMaterials } from '@/hooks/useGetMaterials';
-import { useGetUsers } from '@/hooks/useGetUsers';
 import { BaseLayout } from '@/layout/BaseLayout';
 import { useState } from 'react';
 
 const Home = () => {
   const { materials, totalCount, materialsLoading } = useGetMaterials();
-  const { users } = useGetUsers();
-
-  const userNameMap = users?.reduce<Record<string, string>>(
-    (map, user) => ({ ...map, [user.id]: user.name || '' }),
-    {}
-  );
 
   const [page, setPage] = useState<number>(1);
 
@@ -58,7 +51,7 @@ const Home = () => {
                   <td>{new Date(material.createdAt).toLocaleDateString()}</td>
                   <td>{material.name}</td>
                   <td>{material.quantity}</td>
-                  <td>{userNameMap?.[material.userId]}</td>
+                  <td>{material.createdBy?.name}</td>
                 </tr>
               );
             })}

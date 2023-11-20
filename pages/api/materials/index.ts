@@ -1,6 +1,6 @@
 import prisma from '@/service/prisma';
+import { Material } from '@/types';
 import { authorizationInterceptor } from '@/utils/api.interceptors';
-import { Material } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 type ResponseData = {
@@ -28,6 +28,13 @@ const queryMaterialsHandler = async (
   }
 
   const materials = await prisma.material.findMany({
+    include: {
+      createdBy: {
+        select: {
+          name: true,
+        },
+      },
+    },
     orderBy: {
       name: 'asc',
     },
@@ -53,6 +60,13 @@ const createMaterialHandler = async (
         userId,
         createdAt,
         updatedAt,
+      },
+      include: {
+        createdBy: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
 

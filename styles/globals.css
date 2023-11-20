@@ -44,7 +44,7 @@ tr {
 }
 
 th {
-  @apply h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100;
+  @apply h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100 font-bold;
 }
 
 td {

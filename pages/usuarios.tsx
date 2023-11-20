@@ -27,11 +27,10 @@ const Home = () => {
           <table cellSpacing='0'>
             <thead>
               <tr>
-                <th>Imagen</th>
+                <th className='text-center'>Imagen</th>
                 <th>ID</th>
-                <th>Nombre</th>
-                <th>Correo</th>
                 <th>Creado en</th>
+                <th>Correo</th>
                 <th>Rol</th>
                 <th>Acciones</th>
               </tr>
@@ -50,7 +49,7 @@ const Home = () => {
               {users?.map((user) => {
                 return (
                   <tr key={user.id}>
-                    <td>
+                    <td className='flex justify-center'>
                       <Image
                         src={user?.image ?? '/media/default-user.jpg'}
                         width={40}
@@ -60,9 +59,8 @@ const Home = () => {
                       />
                     </td>
                     <td>{user.id}</td>
-                    <td>{user.name}</td>
+                    <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                     <td>{user.email}</td>
-                    <td>{user.emailVerified?.toDateString()}</td>
                     <td>
                       {roles.find((role) => role.id === user.roleId)?.name}
                     </td>
