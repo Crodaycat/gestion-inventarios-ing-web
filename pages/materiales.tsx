@@ -2,9 +2,11 @@ import { withPrivateRoute } from '@/HOC/PrivateRoute';
 import { Button } from '@/components/Button';
 import { Loading } from '@/components/Loading';
 import { Paginator } from '@/components/Pagination';
+import { ProtectedComponent } from '@/components/ProtectedComponent';
 import { AddMaterial } from '@/components/materials/AddMaterial';
 import { useGetMaterials } from '@/hooks/useGetMaterials';
 import { BaseLayout } from '@/layout/BaseLayout';
+import { Enum_RoleName } from '@prisma/client';
 import { useState } from 'react';
 
 const Home = () => {
@@ -18,11 +20,13 @@ const Home = () => {
       <section className='w-full flex flex-col items-center p-4 gap-5'>
         <h1 className='text-4xl'>Gestión de Materiales</h1>
 
+        <ProtectedComponent allowedRoles={[Enum_RoleName.ADMIN]}>
         <div className='text-right w-full'>
           <Button color='primary' onClick={() => setOpenNewMaterial(true)}>
             Agregar material
           </Button>
         </div>
+        </ProtectedComponent>
 
         <table cellSpacing='0'>
           <thead>
