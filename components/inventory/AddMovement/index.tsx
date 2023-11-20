@@ -52,7 +52,7 @@ const AddMovement = ({ open, setOpen, material }: AddMovementProps) => {
 
   return (
     <Dialog
-      title={`Nuevo movimiento a ${material?.name}`}
+      title={`Agregar movimiento a ${material?.name}`}
       open={open}
       onClose={() => setOpen(false)}
     >
