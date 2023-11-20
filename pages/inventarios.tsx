@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
+import { Button } from '@/components/Button';
 import { AddMovement } from '@/components/inventory/AddMovement';
 import { Material } from '@/types';
 
@@ -62,12 +63,14 @@ const Home = () => {
               </Select>
             </FormControl>
           </form>
-          <button
-            className='bg-green-500 hover:bg-green-600 hover:scale-105 transition-all duration-200 ease-in rounded-md font-medium p-3 self-end'
+
+          <Button
+            color='primary'
+            size='extraLarge'
             onClick={() => setOpenNewMovement(true)}
           >
             Agregar movimiento
-          </button>
+          </Button>
         </div>
         <table cellSpacing='0'>
           <thead>
