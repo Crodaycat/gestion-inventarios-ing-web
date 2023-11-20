@@ -1,6 +1,6 @@
 import { Dialog } from '@/components/Dialog';
 import { API_ROUTES } from '@/service/apiConfig';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
 import { mutate } from 'swr';
@@ -43,20 +43,8 @@ const AddMovement = ({ open, setOpen, material }: AddMovementProps) => {
       await mutate(`${API_ROUTES.movements}/${material?.id}`);
       toast.success('Movimiento agregado correctamente');
       setOpen(false);
-    } catch (error) {
-      const errorResponse = error as AxiosError;
-
-      const errorData = errorResponse?.response?.data as { message: string };
-
-      if (
-        errorData?.message?.includes(
-          'Unique constraint failed on the fields: (`name`)'
-        )
-      ) {
-        toast.error('Error: ya existe un movimiento con ese nombre');
-      } else {
-        toast.error('Error al agregar el movimiento');
-      }
+    } catch {
+      toast.error('Error al agregar el movimiento');
     }
     setLoading(false);
   };
@@ -96,7 +84,7 @@ const AddMovement = ({ open, setOpen, material }: AddMovementProps) => {
           <input
             className='border border-black rounded-md pl-2 py-1'
             type='number'
-            min={0}
+            min={1}
             value={formData.quantity}
             onChange={(e) =>
               setFormData({ ...formData, quantity: +e.target.value })
