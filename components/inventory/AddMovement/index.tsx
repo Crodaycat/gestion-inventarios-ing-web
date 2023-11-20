@@ -1,12 +1,13 @@
+import { Button } from '@/components/Button';
 import { Dialog } from '@/components/Dialog';
+import { Loading } from '@/components/Loading';
 import { API_ROUTES } from '@/service/apiConfig';
+import { Material } from '@/types';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
-import { mutate } from 'swr';
 import { toast } from 'react-toastify';
-import { Loading } from '@/components/Loading';
-import { Material } from '@/types';
+import { mutate } from 'swr';
 
 interface AddMovementProps {
   open: boolean;
@@ -36,7 +37,7 @@ const AddMovement = ({ open, setOpen, material }: AddMovementProps) => {
         data: {
           ...formData,
           userId: data?.user.id,
-          materialId: material?.id
+          materialId: material?.id,
         },
       });
       await mutate(API_ROUTES.movements);
@@ -64,7 +65,9 @@ const AddMovement = ({ open, setOpen, material }: AddMovementProps) => {
                 id='check-entrada'
                 type='checkbox'
                 checked={formData.movementType === 'ENTRADA'}
-                onChange={() => setFormData({ ...formData, movementType: 'ENTRADA' })}
+                onChange={() =>
+                  setFormData({ ...formData, movementType: 'ENTRADA' })
+                }
               />
               Entrada
             </label>
@@ -73,7 +76,9 @@ const AddMovement = ({ open, setOpen, material }: AddMovementProps) => {
                 id='check-salida'
                 type='checkbox'
                 checked={formData.movementType === 'SALIDA'}
-                onChange={() => setFormData({ ...formData, movementType: 'SALIDA' })}
+                onChange={() =>
+                  setFormData({ ...formData, movementType: 'SALIDA' })
+                }
               />
               Salida
             </label>
@@ -91,20 +96,15 @@ const AddMovement = ({ open, setOpen, material }: AddMovementProps) => {
             }
           />
         </label>
+
         <div className='flex gap-4 justify-center mt-4'>
-          <button
-            className='bg-green-400 rounded-md p-2 hover:scale-105 hover:bg-green-500 transition-all duration-200 ease-in'
-            type='submit'
-          >
+          <Button color='primary' type='submit' disabled={loading}>
             {loading ? <Loading size={2} /> : <span>Agregar</span>}
-          </button>
-          <button
-            className='bg-red-400 rounded-md p-2 hover:scale-105 hover:bg-red-500 transition-all duration-200 ease-in'
-            type='button'
-            onClick={() => setOpen(false)}
-          >
+          </Button>
+
+          <Button color='danger' onClick={() => setOpen(false)}>
             Cancelar
-          </button>
+          </Button>
         </div>
       </form>
     </Dialog>
