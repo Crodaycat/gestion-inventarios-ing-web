@@ -11,7 +11,7 @@ export const withPrivateComponent = <Props extends object>(
 
     if (status === 'loading' || !allowedRoles.includes(data!.user.role!)) {
       return (
-        <div className='w-full text-center'>
+        <div className='w-full text-center text-red-600'>
           No tiene los permisos suficientes para acceder a esta funcionalidad.
         </div>
       );

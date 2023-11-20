@@ -44,7 +44,7 @@ const Home = () => {
       <section className='w-full flex flex-col items-center p-4 gap-5'>
         <h1 className='text-4xl'>Gestión de Inventarios</h1>
         <div className='flex flex-row justify-between w-full'>
-          <form className='flex flex-col mt-2 w-48'>
+          <form className='flex flex-col mt-2 w-52'>
             <FormControl fullWidth>
               <InputLabel id='role'>Material seleccionado</InputLabel>
               <Select

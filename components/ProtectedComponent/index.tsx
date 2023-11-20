@@ -17,7 +17,7 @@ export const ProtectedComponent: FC<ProtectedComponentProps> = ({
 
   if (status === 'loading' || !allowedRoles.includes(data!.user.role!)) {
     return showMessage ? (
-      <div className='w-full text-center'>
+      <div className='w-full text-center text-red-600'>
         No tiene los permisos suficientes para acceder a esta funcionalidad.
       </div>
     ) : null;
