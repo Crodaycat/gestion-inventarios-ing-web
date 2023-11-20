@@ -28,11 +28,8 @@ body,
   @apply w-full lg:w-3/4 px-5;
 }
 
-.inventory-button-grid {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+button:disabled{
+  opacity: 40%;
 }
 
 table {

@@ -69,6 +69,7 @@ const Home = () => {
             color='primary'
             size='extraLarge'
             onClick={() => { setOpenNewMovement(true) }}
+            disabled = {!selectedMaterial?.id}
           >
             Agregar movimiento
           </Button>
