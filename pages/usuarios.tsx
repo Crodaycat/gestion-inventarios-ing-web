@@ -38,7 +38,7 @@ const Home = () => {
             <tbody>
               {usersLoading && (
                 <tr>
-                  <td colSpan={5}>
+                  <td colSpan={6}>
                     <div className='flex justify-center items-center'>
                       <Loading /> <span>Cargando...</span>
                     </div>
