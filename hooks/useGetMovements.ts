@@ -7,7 +7,7 @@ const refetchMovements = async (materialId:string) => {
 };
 
 const useGetMovements = (materialId:string) => {
-  const { data, isLoading, error } = useSWR<MovementsQuery>(
+  const { data, isLoading } = useSWR<MovementsQuery>(
     `${API_ROUTES.movements}/${materialId}`,
     fetcher
   );
@@ -15,8 +15,7 @@ const useGetMovements = (materialId:string) => {
   return {
     movements: data?.movements,
     totalCount: data?.totalCount,
-    movementsLoading: isLoading,
-    movementsError: error,
+    movementsLoading: isLoading
   };
 };
 

@@ -1,6 +1,6 @@
 import { Dialog } from '@/components/Dialog';
 import { API_ROUTES } from '@/service/apiConfig';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
 import { mutate } from 'swr';
@@ -43,20 +43,8 @@ const AddMovement = ({ open, setOpen, material }: AddMovementProps) => {
       await mutate(`${API_ROUTES.movements}/${material?.id}`);
       toast.success('Movimiento agregado correctamente');
       setOpen(false);
-    } catch (error) {
-      const errorResponse = error as AxiosError;
-
-      const errorData = errorResponse?.response?.data as { message: string };
-
-      if (
-        errorData?.message?.includes(
-          'Unique constraint failed on the fields: (`name`)'
-        )
-      ) {
-        toast.error('Error: ya existe un movimiento con ese nombre');
-      } else {
-        toast.error('Error al agregar el movimiento');
-      }
+    } catch {
+      toast.error('Error al agregar el movimiento');
     }
     setLoading(false);
   };
@@ -68,33 +56,35 @@ const AddMovement = ({ open, setOpen, material }: AddMovementProps) => {
       onClose={() => setOpen(false)}
     >
       <form onSubmit={submitForm} className='flex flex-col gap-2'>
-        <label className='flex flex-col justify-between gap-2'>
+        <div className='flex flex-col justify-between gap-2'>
           <span className='font-semibold'>Tipo de movimiento</span>
-          <label className='flex flex-row gap-2'>
-          <label className='flex items-center gap-1'>
-            <input
-              type='checkbox'
-              checked={formData.movementType === 'ENTRADA'}
-              onChange={() => setFormData({ ...formData, movementType: 'ENTRADA' })}
-            />
-            Entrada
-          </label>
-          <label className='flex items-center gap-1'>
-            <input
-              type='checkbox'
-              checked={formData.movementType === 'SALIDA'}
-              onChange={() => setFormData({ ...formData, movementType: 'SALIDA' })}
-            />
-            Salida
-          </label>
-          </label>
-        </label>
+          <div className='flex flex-row gap-2'>
+            <label htmlFor='check-entrada' className='flex items-center gap-1'>
+              <input
+                id='check-entrada'
+                type='checkbox'
+                checked={formData.movementType === 'ENTRADA'}
+                onChange={() => setFormData({ ...formData, movementType: 'ENTRADA' })}
+              />
+              Entrada
+            </label>
+            <label htmlFor='check-salida' className='flex items-center gap-1'>
+              <input
+                id='check-salida'
+                type='checkbox'
+                checked={formData.movementType === 'SALIDA'}
+                onChange={() => setFormData({ ...formData, movementType: 'SALIDA' })}
+              />
+              Salida
+            </label>
+          </div>
+        </div>
         <label className='flex flex-col justify-between gap-2'>
           <span className='font-semibold'>Cantidad</span>
           <input
             className='border border-black rounded-md pl-2 py-1'
             type='number'
-            min={0}
+            min={1}
             value={formData.quantity}
             onChange={(e) =>
               setFormData({ ...formData, quantity: +e.target.value })
