@@ -44,7 +44,7 @@ const Home = () => {
     <BaseLayout>
       <section className='w-full flex flex-col items-center p-4 gap-5'>
         <h1 className='text-4xl'>Gestión de Inventarios</h1>
-        <div className='flex flex-row justify-between w-full'>
+        <div className='flex flex-row justify-between items-center w-full'>
           <form className='flex flex-col mt-2 w-52'>
             <FormControl fullWidth>
               <InputLabel id='role'>Material seleccionado</InputLabel>
@@ -65,63 +65,72 @@ const Home = () => {
             </FormControl>
           </form>
 
-          <Button
-            color='primary'
-            size='extraLarge'
-            onClick={() => { setOpenNewMovement(true) }}
-            disabled = {!selectedMaterial?.id}
-          >
-            Agregar movimiento
-          </Button>
+          <div>
+            <Button
+              color='primary'
+              size='extraLarge'
+              onClick={() => {
+                setOpenNewMovement(true);
+              }}
+              disabled={!selectedMaterial?.id}
+            >
+              Agregar movimiento
+            </Button>
+          </div>
         </div>
-        {selectedMaterial?.id && <>
-          <table cellSpacing='0'>
-            <thead>
-              <tr>
-                <th>Identificador</th>
-                <th>Fecha</th>
-                <th>Entrada</th>
-                <th>Salida</th>
-                <th>Responsable</th>
-              </tr>
-            </thead>
-            <tbody>
-              {movementsLoading && (
+        {selectedMaterial?.id && (
+          <>
+            <table cellSpacing='0'>
+              <thead>
                 <tr>
-                  <td colSpan={5}>
-                    <div className='flex justify-center items-center'>
-                      <Loading /> <span>Cargando...</span>
-                    </div>
-                  </td>
+                  <th>Identificador</th>
+                  <th>Fecha</th>
+                  <th>Entrada</th>
+                  <th>Salida</th>
+                  <th>Responsable</th>
                 </tr>
-              )}
-              {movements?.map((movement) => {
-                return (
-                  <tr key={movement.id}>
-                    <td>{movement.id}</td>
-                    <td>{new Date(movement.createdAt).toLocaleDateString()}</td>
-                    <td>
-                      {movement.movementType === 'ENTRADA'
-                        ? movement.quantity
-                        : ''}
+              </thead>
+              <tbody>
+                {movementsLoading && (
+                  <tr>
+                    <td colSpan={5}>
+                      <div className='flex justify-center items-center'>
+                        <Loading /> <span>Cargando...</span>
+                      </div>
                     </td>
-                    <td>
-                      {movement.movementType === 'SALIDA'
-                        ? movement.quantity
-                        : ''}
-                    </td>
-                    <td>{movement.createdBy?.name}</td>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <Paginator
-            currentPage={page}
-            itemsPerPage={20}
-            totalCount={totalCount}
-            updatePage={setPage}
-          /></>}
+                )}
+                {movements?.map((movement) => {
+                  return (
+                    <tr key={movement.id}>
+                      <td>{movement.id}</td>
+                      <td>
+                        {new Date(movement.createdAt).toLocaleDateString()}
+                      </td>
+                      <td>
+                        {movement.movementType === 'ENTRADA'
+                          ? movement.quantity
+                          : ''}
+                      </td>
+                      <td>
+                        {movement.movementType === 'SALIDA'
+                          ? movement.quantity
+                          : ''}
+                      </td>
+                      <td>{movement.createdBy?.name}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <Paginator
+              currentPage={page}
+              itemsPerPage={20}
+              totalCount={totalCount}
+              updatePage={setPage}
+            />
+          </>
+        )}
 
         <AddMovement
           open={openNewMovement}
