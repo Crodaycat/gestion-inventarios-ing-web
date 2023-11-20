@@ -11,10 +11,12 @@ import { Enum_RoleName, User } from '@prisma/client';
 import Image from 'next/image';
 import { useContext, useState } from 'react';
 
+const itemsPerPage = 20;
+
 const Home = () => {
-  const { users, totalCount, usersLoading } = useGetUsers();
   const { roles } = useContext(ApplicationContext);
   const [page, setPage] = useState<number>(1);
+  const { users, totalCount, usersLoading } = useGetUsers(page, itemsPerPage);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [editUserOpen, setEditUserOpen] = useState<boolean>(false);
 
@@ -82,7 +84,7 @@ const Home = () => {
           </table>
           <Paginator
             currentPage={page}
-            itemsPerPage={20}
+            itemsPerPage={itemsPerPage}
             totalCount={totalCount}
             updatePage={setPage}
           />

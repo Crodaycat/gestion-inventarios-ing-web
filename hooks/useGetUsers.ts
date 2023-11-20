@@ -6,9 +6,14 @@ const refetchUsers = async () => {
   await mutate(API_ROUTES.users);
 };
 
-const useGetUsers = () => {
+const useGetUsers = (page: number = 1, itemPerPage: number = 20) => {
+  const queryParams = new URLSearchParams({
+    page: page?.toString(),
+    itemPerPage: itemPerPage?.toString(),
+  });
+
   const { data, isLoading, error } = useSWR<UsersQuery>(
-    API_ROUTES.users,
+    `${API_ROUTES.users}?${queryParams}`,
     fetcher
   );
 
