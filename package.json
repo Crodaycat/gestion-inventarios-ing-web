@@ -18,6 +18,8 @@
     "@mui/material": "^5.14.17",
     "@prisma/client": "^5.5.2",
     "axios": "^1.6.1",
+    "devextreme": "23.1.6",
+    "devextreme-react": "23.1.6",
     "next": "13.4.6",
     "next-auth": "^4.24.4",
     "react": "^18",

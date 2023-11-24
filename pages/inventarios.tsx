@@ -1,5 +1,6 @@
 import { withPrivateRoute } from '@/HOC/PrivateRoute';
 import { Loading } from '@/components/Loading';
+import { Indicadores } from '@/components/Indicadores/index';
 import { Paginator } from '@/components/Pagination';
 import { useGetMaterials } from '@/hooks/useGetMaterials';
 import { useGetMovements } from '@/hooks/useGetMovements';
@@ -129,6 +130,7 @@ const Home = () => {
               totalCount={totalCount}
               updatePage={setPage}
             />
+            <Indicadores movements={movements} />
           </>
         )}
 
