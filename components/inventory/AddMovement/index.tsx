@@ -3,7 +3,7 @@ import { Dialog } from '@/components/Dialog';
 import { Loading } from '@/components/Loading';
 import { API_ROUTES } from '@/service/apiConfig';
 import { Material } from '@/types';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useSession } from 'next-auth/react';
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -44,8 +44,21 @@ const AddMovement = ({ open, setOpen, material }: AddMovementProps) => {
       await mutate(`${API_ROUTES.movements}/${material?.id}`);
       toast.success('Movimiento agregado correctamente');
       setOpen(false);
-    } catch {
-      toast.error('Error al agregar el movimiento');
+    } catch (error) {
+      const errorResponse = error as AxiosError;
+      const errorData = errorResponse?.response?.data as { message: string };
+
+      if (
+        errorData?.message?.includes(
+          'La cantidad solicitada excede el inventario actual'
+        )
+      ) {
+        toast.error(
+          'Error: la cantidad solicitada excede el inventario actual'
+        );
+      } else {
+        toast.error('Error al agregar el movimiento');
+      }
     }
     setLoading(false);
   };
