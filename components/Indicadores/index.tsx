@@ -5,54 +5,41 @@ import {
   Series,
   Point,
   Legend,
+  Tooltip,
 } from 'devextreme-react/chart';
+import { Movement } from '@/types';
 
-const Indicadores = (movements) => {
-  let grossProductData = [];
+interface IndicadoresProps {
+  movements: Movement[];
+}
+
+const Indicadores = ({ movements }: IndicadoresProps) => {
+  const grossProductData: { fecha: string; saldo: number }[] = [];
   let saldoAcumulado = 0;
-  let secondDate = null;
-  let cont = 0;
+  let secondDate = new Date().toLocaleDateString();
 
-  if (Array.isArray(movements.movements)) {
-    movements.movements.reverse().forEach((movement, index, array) => {
+  if (Array.isArray(movements)) {
+    movements.reverse().forEach((movement, index, array) => {
       {
         movement.movementType === 'ENTRADA'
           ? (saldoAcumulado += movement.quantity)
           : (saldoAcumulado -= movement.quantity);
       }
-
-      cont += 1;
-      console.log(saldoAcumulado);
-
-      let firstdate = new Date(movement.createdAt).toLocaleDateString();
+      const firstDate = new Date(movement.createdAt).toLocaleDateString();
 
       if (secondDate === null) {
-        secondDate = firstdate;
+        secondDate = firstDate;
       }
 
-      if (secondDate !== firstdate) {
-        cont += 1;
-        console.log('contador 1');
-        console.log(cont);
-        console.log(secondDate);
-        console.log('saldo guardado');
-        console.log(saldoAcumulado);
+      if (secondDate !== firstDate) {
         grossProductData.push({
           fecha: secondDate,
           saldo: saldoAcumulado,
         });
-        secondDate = null;
+        secondDate = new Date().toLocaleDateString();
       }
 
       if (index === array.length - 1 && array.length > 1) {
-        cont += 1;
-        console.log('contador 2');
-        console.log(cont);
-        console.log(new Date(movement.createdAt).toLocaleDateString());
-        console.log('saldo guardado');
-        console.log(grossProductData.length);
-        console.log(saldoAcumulado - movement.quantity);
-        // Estás en el último elemento
         if (grossProductData.length === 0) {
           grossProductData.push({
             fecha: new Date(movement.createdAt).toLocaleDateString(),
@@ -67,13 +54,6 @@ const Indicadores = (movements) => {
       }
 
       if (array.length === 1) {
-        cont += 1;
-        console.log('contador 3');
-        console.log(cont);
-        console.log(new Date(movement.createdAt).toLocaleDateString());
-        console.log('saldo guardado');
-        console.log(saldoAcumulado - movement.quantity);
-        // Estás en el último elemento
         grossProductData.push({
           fecha: new Date(movement.createdAt).toLocaleDateString(),
           saldo: saldoAcumulado,
@@ -81,8 +61,6 @@ const Indicadores = (movements) => {
       }
     });
   }
-
-  console.log(grossProductData);
   const title = `Saldo: ${saldoAcumulado}`;
 
   return (
@@ -96,9 +74,9 @@ const Indicadores = (movements) => {
         >
           <CommonSeriesSettings
             argumentField='fecha'
-            type='line' // Cambiado el tipo de serie a 'spline'
+            type='line'
             hoverMode='includePoints'
-            line={{ width: 2, color: 'blue' }} // Configuración de la línea
+            line={{ width: 2, color: 'blue' }}
           >
             <Point hoverMode='allArgumentPoints' />
           </CommonSeriesSettings>
@@ -108,6 +86,7 @@ const Indicadores = (movements) => {
             horizontalAlignment='center'
             hoverMode='excludePoints'
           />
+          <Tooltip enabled={true} />
         </Chart>
       </section>
     </div>
