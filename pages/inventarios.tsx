@@ -130,7 +130,7 @@ const Home = () => {
               totalCount={totalCount}
               updatePage={setPage}
             />
-            <Indicadores movements={movements} />
+            <Indicadores movements={movements || []} />
           </>
         )}
 
